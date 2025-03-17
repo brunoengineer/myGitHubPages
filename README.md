@@ -1,13 +1,13 @@
 # GitHub Pages Portfolio
 
-[Live Demo](https://BrunoWebDesigner.github.io/GitHub-Pages-Portfolio)
+[Live Demo](https://brunowebdesigner.github.io/myGitHubPages/)
 
 A simple web app to show my GitHub Pages projects.
 
 ## Setup
 1. Clone the repo:
    ```bash
-   git clone https://github.com/BrunoWebDesigner/GitHub-Pages-Portfolio.git
+   git clone https://github.com/BrunoWebDesigner/myGitHubPages.git
 
 2. Open script.js and set your GitHub username:
 const username = "YourGitHubUsername";
