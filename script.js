@@ -17,7 +17,7 @@ async function getGitHubPagesRepos() {
 
         const repos = await response.json();
         const pagesRepos = repos
-            .filter(repo => repo.has_pages)
+            .filter(repo => repo.has_pages && repo.name !== "myGitHubPages") // Exclude myGitHubPages
             .map(repo => ({
                 name: repo.name,
                 url: `https://${username}.github.io/${repo.name}/`,
