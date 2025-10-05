@@ -1,4 +1,4 @@
-const username = "BrunoWebDesigner"; // Replace with your GitHub username if different
+const username = "brunoengineer"; // Replace with your GitHub username if different
 const repoList = document.getElementById("repo-list");
 const lastUpdated = document.getElementById("last-updated");
 
