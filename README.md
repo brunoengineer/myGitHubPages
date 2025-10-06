@@ -1,6 +1,6 @@
 # GitHub Pages Portfolio
 
-[Live Demo](https://brunowebdesigner.github.io/myGitHubPages/)
+[Live Demo](https://brunoengineer.github.io/myGitHubPages/)
 
 A simple web app to show my GitHub Pages projects.
 
