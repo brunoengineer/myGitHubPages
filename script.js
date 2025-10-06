@@ -4,20 +4,30 @@ const lastUpdated = document.getElementById("last-updated");
 
 async function getGitHubPagesRepos() {
     try {
-        // Add a cache-busting query parameter to prevent caching
-        const response = await fetch(`https://api.github.com/users/${username}/repos?timestamp=${Date.now()}`, {
-            headers: {
-                'Accept': 'application/vnd.github.v3+json' // Ensure we're using the latest API version
+        let allRepos = [];
+        let page = 1;
+        let hasMore = true;
+        // Fetch all pages until no more repos
+        while (hasMore) {
+            const response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&page=${page}&timestamp=${Date.now()}`, {
+                headers: {
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`GitHub API error: ${response.status} - ${response.statusText}`);
             }
-        });
-
-        if (!response.ok) {
-            throw new Error(`GitHub API error: ${response.status} - ${response.statusText}`);
+            const repos = await response.json();
+            allRepos = allRepos.concat(repos);
+            if (repos.length < 100) {
+                hasMore = false;
+            } else {
+                page++;
+            }
         }
 
-        const repos = await response.json();
-        const pagesRepos = repos
-            .filter(repo => repo.has_pages && repo.name !== "myGitHubPages") // Exclude myGitHubPages
+        const pagesRepos = allRepos
+            .filter(repo => repo.has_pages && repo.name !== "myGitHubPages")
             .map(repo => ({
                 name: repo.name,
                 url: `https://${username}.github.io/${repo.name}/`,
@@ -25,7 +35,6 @@ async function getGitHubPagesRepos() {
             }));
 
         repoList.innerHTML = "";
-
         if (pagesRepos.length > 0) {
             pagesRepos.forEach(repo => {
                 const listItem = document.createElement("li");
@@ -38,8 +47,6 @@ async function getGitHubPagesRepos() {
         } else {
             repoList.innerHTML = "<li>No GitHub Pages sites found for this user.</li>";
         }
-
-        // Update the timestamp
         lastUpdated.textContent = new Date().toLocaleString();
     } catch (error) {
         repoList.innerHTML = `<li>⚠️ Error loading repositories: ${error.message}</li>`;
